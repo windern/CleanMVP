@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
+apply plugin: 'org.greenrobot.greendao'
 
 android {
     compileSdkVersion 25
@@ -71,4 +72,6 @@ dependencies {
     provided 'org.glassfish:javax.annotation:10.0-b28'
     //指定注解处理器,不用butterknife的时候用apt，解决冲突用provided
     provided 'com.google.dagger:dagger-compiler:2.7'
+    //greendao
+    compile 'org.greenrobot:greendao:3.2.0'
 }
