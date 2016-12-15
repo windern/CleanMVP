@@ -22,7 +22,7 @@ import rx.schedulers.Schedulers;
 public class RecyclerViewPracticePresenter implements RecyclerViewPracticeContract.Presenter {
     private RecyclerViewPracticeContract.View view;
     private int page = 0;
-    private int pageSize = 10;
+    private int pageSize = 20;
 
     public RecyclerViewPracticePresenter(RecyclerViewPracticeContract.View view) {
         this.view = view;

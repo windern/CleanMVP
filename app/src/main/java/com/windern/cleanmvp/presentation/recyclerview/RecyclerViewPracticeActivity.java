@@ -22,6 +22,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 public class RecyclerViewPracticeActivity extends AppCompatActivity
         implements RecyclerViewPracticeContract.View {
@@ -41,6 +42,10 @@ public class RecyclerViewPracticeActivity extends AppCompatActivity
     private int lastVisibleItem = 0;
     private LinearLayoutManager linearLayoutManager;
     private boolean isLoadMore = false;
+    private int loadState = LOAD_IDLE;
+    private static final int LOAD_IDLE = 0;
+    private static final int LOAD_FRESH = 1;
+    private static final int LOAD_MORE = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +76,11 @@ public class RecyclerViewPracticeActivity extends AppCompatActivity
         swiperefreshlayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                refresh();
+                if (loadState == LOAD_IDLE) {
+                    refresh();
+                } else {
+                    swiperefreshlayout.setRefreshing(false);
+                }
             }
         });
 
@@ -83,7 +92,8 @@ public class RecyclerViewPracticeActivity extends AppCompatActivity
                 super.onScrollStateChanged(recyclerView, newState);
                 if (newState == RecyclerView.SCROLL_STATE_IDLE
                         && lastVisibleItem + 1 == noteRecyclerAdapter.getItemCount()) {
-                    presenter.getMore();
+                    Timber.d("getMore");
+                    getMore();
                 }
             }
 
@@ -108,8 +118,27 @@ public class RecyclerViewPracticeActivity extends AppCompatActivity
     }
 
     private void refresh() {
-        noteList.clear();
-        presenter.refresh();
+        if (getLoadState() == LOAD_IDLE) {
+            setLoadState(LOAD_FRESH);
+            noteList.clear();
+            noteRecyclerAdapter.notifyDataSetChanged();
+            presenter.refresh();
+        }
+    }
+
+    private void getMore() {
+        if (getLoadState() == LOAD_IDLE) {
+            setLoadState(LOAD_MORE);
+            presenter.getMore();
+        }
+    }
+
+    private synchronized void setLoadState(int state) {
+        loadState = state;
+    }
+
+    private synchronized int getLoadState() {
+        return loadState;
     }
 
     @Override
@@ -125,25 +154,29 @@ public class RecyclerViewPracticeActivity extends AppCompatActivity
 
     @Override
     public void showRefreshLoading() {
+        setLoadState(LOAD_FRESH);
         swiperefreshlayout.setRefreshing(true);
     }
 
     @Override
     public void hideRefreshLoading() {
+        setLoadState(LOAD_IDLE);
         swiperefreshlayout.setRefreshing(false);
     }
 
     @Override
     public void showMoreLoading() {
-        isLoadMore = true;
-        swiperefreshlayout.setRefreshing(true);
+        setLoadState(LOAD_MORE);
+        noteList.add(null);
+        noteRecyclerAdapter.notifyDataSetChanged();
         showToast("显示加载更多");
     }
 
     @Override
     public void hideMoreLoading() {
-        isLoadMore = false;
-        swiperefreshlayout.setRefreshing(false);
+        setLoadState(LOAD_IDLE);
+        noteList.remove(noteList.size() - 1);
+        noteRecyclerAdapter.notifyDataSetChanged();
         showToast("隐藏加载更多");
     }
 
