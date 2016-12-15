@@ -8,6 +8,7 @@ import org.greenrobot.greendao.database.Database;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -63,6 +64,7 @@ public class RecyclerViewPracticePresenter implements RecyclerViewPracticeContra
                 .orderDesc(NoteDao.Properties.Id)
                 .rx().list();
         observerable.subscribeOn(Schedulers.io())
+                .delay(3, TimeUnit.SECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<List<Note>>() {
                     @Override
@@ -96,6 +98,7 @@ public class RecyclerViewPracticePresenter implements RecyclerViewPracticeContra
                 .orderDesc(NoteDao.Properties.Id)
                 .rx().list();
         observerable.subscribeOn(Schedulers.io())
+                .delay(3, TimeUnit.SECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<List<Note>>() {
                     @Override

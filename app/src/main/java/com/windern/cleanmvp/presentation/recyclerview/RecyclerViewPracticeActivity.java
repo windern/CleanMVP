@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.windern.cleanmvp.R;
@@ -36,6 +37,10 @@ public class RecyclerViewPracticeActivity extends AppCompatActivity
 
     private List<Note> noteList = new ArrayList<>();
     private NoteRecyclerAdapter noteRecyclerAdapter;
+
+    private int lastVisibleItem = 0;
+    private LinearLayoutManager linearLayoutManager;
+    private boolean isLoadMore = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +75,26 @@ public class RecyclerViewPracticeActivity extends AppCompatActivity
             }
         });
 
-        rcvArticleOrigin.setLayoutManager(new LinearLayoutManager(this));
+        linearLayoutManager = new LinearLayoutManager(this);
+        rcvArticleOrigin.setLayoutManager(linearLayoutManager);
+        rcvArticleOrigin.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == RecyclerView.SCROLL_STATE_IDLE
+                        && lastVisibleItem + 1 == noteRecyclerAdapter.getItemCount()) {
+                    presenter.getMore();
+                }
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
+            }
+        });
+
+
         noteRecyclerAdapter = new NoteRecyclerAdapter(noteList);
         rcvArticleOrigin.setAdapter(noteRecyclerAdapter);
 
@@ -111,11 +135,15 @@ public class RecyclerViewPracticeActivity extends AppCompatActivity
 
     @Override
     public void showMoreLoading() {
+        isLoadMore = true;
+        swiperefreshlayout.setRefreshing(true);
         showToast("显示加载更多");
     }
 
     @Override
     public void hideMoreLoading() {
+        isLoadMore = false;
+        swiperefreshlayout.setRefreshing(false);
         showToast("隐藏加载更多");
     }
 
