@@ -58,6 +58,7 @@ public class DragView extends View {
 
     private void init() {
         paintFill = new Paint();
+        //去掉锯齿
         paintFill.setAntiAlias(true);
         paintFill.setStyle(Paint.Style.FILL_AND_STROKE);
         paintFill.setColor(fillColor);

@@ -22,4 +22,9 @@
         <attr name="strokeColor" format="color"></attr>
         <attr name="strokeWidth" format="dimension"></attr>
     </declare-styleable>
+
+    <declare-styleable name="DragLayout">
+        <attr name="lineColor" format="color"></attr>
+        <attr name="lineWidth" format="dimension"></attr>
+    </declare-styleable>
 </resources>
