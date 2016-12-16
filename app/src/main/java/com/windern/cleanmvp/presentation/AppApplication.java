@@ -8,17 +8,21 @@ import com.windern.cleanmvp.data.database.DatabaseManagerHelper;
 
 import org.greenrobot.greendao.database.Database;
 
+import timber.log.Timber;
+
 /**
  * Created by wenxinlin on 2016/10/25.
  */
 
-public class AppApplication extends Application{
+public class AppApplication extends Application {
     private ApplicationComponent applicationComponent;
 
     @Override
     public void onCreate() {
         super.onCreate();
 
+        Timber.plant(new Timber.DebugTree());
+        Timber.tag("windern");
         applicationComponent = DaggerApplicationComponent.builder()
                 .applicationModule(new ApplicationModule(this))
                 .build();
@@ -26,7 +30,7 @@ public class AppApplication extends Application{
         DatabaseManagerHelper.getInstance().init(this);
     }
 
-    public ApplicationComponent getApplicationComponent(){
+    public ApplicationComponent getApplicationComponent() {
         return applicationComponent;
     }
 }

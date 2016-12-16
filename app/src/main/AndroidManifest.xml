@@ -10,13 +10,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity" />
-        <activity android:name=".presentation.temp.TempActivity"></activity>
-        <activity android:name=".presentation.note.NoteActivity">
-
-        </activity>
+        <activity android:name=".presentation.temp.TempActivity" />
+        <activity android:name=".presentation.note.NoteActivity"></activity>
         <activity
             android:name=".presentation.recyclerview.RecyclerViewPracticeActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar">
+
+        </activity>
+        <activity android:name=".presentation.viewgroup.ViewGroupActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

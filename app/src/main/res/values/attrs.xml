@@ -16,4 +16,10 @@
         <attr name="pwContourColor" format="color" />
         <attr name="pwContourSize" format="float" />
     </declare-styleable>
+
+    <declare-styleable name="DragView">
+        <attr name="fillColor" format="color"></attr>
+        <attr name="strokeColor" format="color"></attr>
+        <attr name="strokeWidth" format="dimension"></attr>
+    </declare-styleable>
 </resources>
