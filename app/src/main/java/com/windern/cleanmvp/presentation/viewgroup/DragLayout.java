@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -21,6 +22,10 @@ public class DragLayout extends ViewGroup {
     private int lineColor = Color.RED;
     private float lineWidth = 10;
     private Paint paint;
+
+    private int selectViewIndex = -1;
+    private int selectViewLastX = 0;
+    private int selectViewLastY = 0;
 
     public DragLayout(Context context) {
         super(context);
@@ -58,8 +63,8 @@ public class DragLayout extends ViewGroup {
         //去掉锯齿
         paint.setAntiAlias(true);
         paint.setStyle(Paint.Style.FILL);
-        paint.setColor(Color.RED);
-        paint.setStrokeWidth(10);
+        paint.setColor(lineColor);
+        paint.setStrokeWidth(lineWidth);
     }
 
     @Override
@@ -111,5 +116,53 @@ public class DragLayout extends ViewGroup {
         stopy = view1.getY() + view1.getHeight() / 2;
 
         canvas.drawLine(startx, starty, stopx, stopy, paint);
+    }
+
+    /**
+     * 监听内部滑动，从监听子控件到监听父控件
+     *
+     * @param event
+     * @return
+     */
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        int x = (int) event.getX();
+        int y = (int) event.getY();
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                for (int i = 0; i < getChildCount(); i++) {
+                    View view = getChildAt(i);
+                    if (x >= view.getLeft() && y >= view.getTop()
+                            && x <= view.getRight()
+                            && y <= view.getBottom()) {
+                        selectViewIndex = i;
+                        selectViewLastX = x;
+                        selectViewLastY = y;
+                        break;
+                    }
+                }
+                break;
+            case MotionEvent.ACTION_MOVE:
+                int offx = x - selectViewLastX;
+                int offy = y - selectViewLastY;
+                if (selectViewIndex != -1) {
+                    View selectView = getChildAt(selectViewIndex);
+                    selectView.layout(selectView.getLeft() + offx, selectView.getTop() + offy
+                            , selectView.getRight() + offx, selectView.getBottom() + offy);
+
+                    selectViewLastX = x;
+                    selectViewLastY = y;
+                }
+                //不主动调用的话，画的线段是断断续续的
+                invalidate();
+                break;
+            case MotionEvent.ACTION_UP:
+                selectViewIndex = -1;
+                selectViewLastX = 0;
+                selectViewLastY = 0;
+                selectViewLastY = 0;
+                break;
+        }
+        return true;
     }
 }

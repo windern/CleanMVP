@@ -85,28 +85,8 @@ public class DragView extends View {
         super.onDraw(canvas);
         float width = getWidth();
         float rd = width / 2;
-        Timber.d("width:%s,strokeWidth:%s", width, strokeWidth);
 
         canvas.drawCircle(width / 2, width / 2, rd - strokeWidth, paintFill);
         canvas.drawCircle(width / 2, width / 2, rd - strokeWidth / 2, paintStroke);
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        int x = (int) event.getX();
-        int y = (int) event.getY();
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                lastX = x;
-                lastY = y;
-                break;
-            case MotionEvent.ACTION_MOVE:
-                int offx = x - lastX;
-                int offy = y - lastY;
-                layout(getLeft() + offx, getTop() + offy
-                        , getRight() + offx, getBottom() + offy);
-                break;
-        }
-        return true;
     }
 }
