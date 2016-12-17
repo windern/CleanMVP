@@ -6,14 +6,12 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
 import android.view.View;
 
 import com.windern.cleanmvp.R;
 
-import timber.log.Timber;
-
 /**
+ * 同心圆控件
  * Created by wenxinlin on 2016/12/16.
  */
 

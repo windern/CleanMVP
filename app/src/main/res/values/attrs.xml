@@ -26,6 +26,7 @@
     <declare-styleable name="DragLayout">
         <attr name="lineColor" format="color"></attr>
         <attr name="lineWidth" format="dimension"></attr>
+        <attr name="relations" format="string"></attr>
     </declare-styleable>
 
     <declare-styleable name="DragLayoutParams">

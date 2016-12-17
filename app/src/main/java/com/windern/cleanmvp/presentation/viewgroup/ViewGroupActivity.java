@@ -35,11 +35,11 @@ public class ViewGroupActivity extends AppCompatActivity {
         List<String> list = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             for (int j = i + 1; j < count; j++) {
-                String line = String.valueOf(i) + "-" + String.valueOf(j);
+                String line = String.valueOf(i) + DragLayout.WORD_SPLIT_LINE_POINT + String.valueOf(j);
                 list.add(line);
             }
         }
-        String relations = TextUtils.join(";", list);
+        String relations = TextUtils.join(DragLayout.WORD_SPLIT_LINE, list);
         return relations;
     }
 }

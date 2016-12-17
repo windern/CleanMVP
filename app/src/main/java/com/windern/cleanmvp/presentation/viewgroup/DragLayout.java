@@ -13,12 +13,8 @@ import android.view.ViewGroup;
 
 import com.windern.cleanmvp.R;
 
-import java.util.Iterator;
-import java.util.Map;
-
-import timber.log.Timber;
-
 /**
+ * 支持子控件拖动的自定义viewlayout
  * Created by wenxinlin on 2016/12/16.
  */
 
@@ -27,11 +23,33 @@ public class DragLayout extends ViewGroup {
     private float lineWidth = 10;
     private Paint paint;
 
+    /**
+     * 连线
+     * 形式：0-1;0-2;3-4
+     */
     private String relations;
 
+    /**
+     * 选中的控件的编号
+     */
     private int selectViewIndex = -1;
+    /**
+     * 上次所在位置x
+     */
     private int selectViewLastX = 0;
+    /**
+     * 上次所在位置y
+     */
     private int selectViewLastY = 0;
+
+    /**
+     * 线的间隔符
+     */
+    public static final String WORD_SPLIT_LINE = ";";
+    /**
+     * 点的分割符
+     */
+    public static final String WORD_SPLIT_LINE_POINT = "-";
 
     public void setRelations(String relations) {
         this.relations = relations;
@@ -47,6 +65,7 @@ public class DragLayout extends ViewGroup {
         TypedArray tr = context.obtainStyledAttributes(attrs, R.styleable.DragLayout, 0, 0);
         lineColor = tr.getColor(R.styleable.DragLayout_lineColor, Color.RED);
         lineWidth = tr.getDimension(R.styleable.DragLayout_lineWidth, 10);
+        relations = tr.getString(R.styleable.DragLayout_relations);
 
         tr.recycle();
 
@@ -59,6 +78,7 @@ public class DragLayout extends ViewGroup {
         TypedArray tr = context.obtainStyledAttributes(attrs, R.styleable.DragLayout, 0, 0);
         lineColor = tr.getColor(R.styleable.DragLayout_lineColor, Color.RED);
         lineWidth = tr.getDimension(R.styleable.DragLayout_lineWidth, 10);
+        relations = tr.getString(R.styleable.DragLayout_relations);
 
         tr.recycle();
 
@@ -108,19 +128,18 @@ public class DragLayout extends ViewGroup {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        float startx = 0;
-        float starty = 0;
-        float stopx = 0;
-        float stopy = 0;
+        float startx;
+        float starty;
+        float stopx;
+        float stopy;
 
         if (!TextUtils.isEmpty(relations)) {
-            String[] lines = relations.split(";");
-            for (int i = 0; i < lines.length; i++) {
-                String line = lines[i];
+            String[] lines = relations.split(WORD_SPLIT_LINE);
+            for (String line : lines) {
                 if (TextUtils.isEmpty(line)) {
                     continue;
                 }
-                String[] keyValue = line.split("-");
+                String[] keyValue = line.split(WORD_SPLIT_LINE_POINT);
                 if (keyValue.length != 2) {
                     continue;
                 }
@@ -157,8 +176,8 @@ public class DragLayout extends ViewGroup {
     /**
      * 监听内部滑动，从监听子控件到监听父控件
      *
-     * @param event
-     * @return
+     * @param event 移动事件
+     * @return 是否消费
      */
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -205,8 +224,8 @@ public class DragLayout extends ViewGroup {
     /**
      * 覆盖重新获取
      *
-     * @param attrs
-     * @return
+     * @param attrs 参数
+     * @return 新的layoutParams
      */
     @Override
     public LayoutParams generateLayoutParams(AttributeSet attrs) {
@@ -217,10 +236,10 @@ public class DragLayout extends ViewGroup {
      * 自定义的layoutparams
      */
     public static class DragLayoutParams extends ViewGroup.MarginLayoutParams {
-        public float posX;
-        public float posY;
+        float posX;
+        float posY;
 
-        public DragLayoutParams(Context c, AttributeSet attrs) {
+        DragLayoutParams(Context c, AttributeSet attrs) {
             super(c, attrs);
 
             TypedArray tr = c.obtainStyledAttributes(attrs, R.styleable.DragLayoutParams);

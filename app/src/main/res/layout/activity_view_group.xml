@@ -12,6 +12,7 @@
         android:id="@+id/dragLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:relations="1-2;3-5;0-2;2-5;3-4"
         app:lineColor="#893fff"
         app:lineWidth="2dp">
 
