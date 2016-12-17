@@ -109,18 +109,46 @@ public class DragLayout extends ViewGroup {
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        for (int i = 0; i < getChildCount(); i++) {
-            View view = getChildAt(i);
-            DragLayoutParams params = (DragLayoutParams) (view.getLayoutParams());
-            int posX = (int) params.posX;
-            int posY = (int) params.posY;
+//        原来的使用view自带的定位
+//        for (int i = 0; i < getChildCount(); i++) {
+//            View view = getChildAt(i);
+//            DragLayoutParams params = (DragLayoutParams) (view.getLayoutParams());
+//            int posX = (int) params.posX;
+//            int posY = (int) params.posY;
+//
+//            //计算childView的left,top,right,bottom
+//            int lc = l + posX;
+//            int tc = t + posY;
+//            int rc = lc + view.getMeasuredWidth();
+//            int bc = tc + view.getMeasuredWidth();
+//            view.layout(lc, tc, rc, bc);
+//        }
 
-            //计算childView的left,top,right,bottom
-            int lc = l + posX;
-            int tc = t + posY;
-            int rc = lc + view.getMeasuredWidth();
-            int bc = tc + view.getMeasuredWidth();
-            view.layout(lc, tc, rc, bc);
+        int centerx = l + (r - l) / 2;
+        int centery = t + (b - t) / 2;
+        int small = centery > centerx ? centerx : centery;
+        float radius = small * 0.8f;
+
+        if (getChildCount() > 0) {
+            View view0 = getChildAt(0);
+            view0.layout(centerx - view0.getMeasuredWidth() / 2
+                    , centery - view0.getMeasuredHeight() / 2
+                    , centerx + view0.getMeasuredWidth() / 2
+                    , centery + view0.getMeasuredHeight() / 2);
+        }
+        for (int i = 1; i < getChildCount(); i++) {
+            View view = getChildAt(i);
+            int index = i - 1;
+            int max = getChildCount() - 1;
+            double offsetCenterX = radius * Math.sin(Math.toRadians(index * 360 / max));
+            double offsetCenterY = radius * Math.cos(Math.toRadians(index * 360) / max);
+            int realx = (int) (centerx + offsetCenterX);
+            //y坐标轴是反着的
+            int realy = (int) (centery - offsetCenterY);
+            view.layout(realx - view.getMeasuredWidth() / 2
+                    , realy - view.getMeasuredHeight() / 2
+                    , realx + view.getMeasuredWidth() / 2
+                    , realy + view.getMeasuredHeight() / 2);
         }
     }
 
