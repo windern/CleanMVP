@@ -27,4 +27,9 @@
         <attr name="lineColor" format="color"></attr>
         <attr name="lineWidth" format="dimension"></attr>
     </declare-styleable>
+
+    <declare-styleable name="DragLayoutParams">
+        <attr name="posX" format="dimension"></attr>
+        <attr name="posY" format="dimension"></attr>
+    </declare-styleable>
 </resources>

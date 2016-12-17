@@ -24,9 +24,6 @@ public class DragView extends View {
     private Paint paintFill;
     private Paint paintStroke;
 
-    private int lastX;
-    private int lastY;
-
     public DragView(Context context) {
         super(context);
         init();
@@ -38,7 +35,7 @@ public class DragView extends View {
         TypedArray tr = context.obtainStyledAttributes(attrs, R.styleable.DragView, 0, 0);
         fillColor = tr.getColor(R.styleable.DragView_fillColor, Color.BLUE);
         strokeColor = tr.getColor(R.styleable.DragView_strokeColor, Color.RED);
-        strokeWidth = tr.getDimensionPixelOffset(R.styleable.DragView_strokeWidth, 0);
+        strokeWidth = tr.getDimension(R.styleable.DragView_strokeWidth, 0);
 
         tr.recycle();
 
@@ -47,10 +44,12 @@ public class DragView extends View {
 
     public DragView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+
         TypedArray tr = context.obtainStyledAttributes(attrs, R.styleable.DragView, 0, 0);
         fillColor = tr.getColor(R.styleable.DragView_fillColor, Color.BLUE);
         strokeColor = tr.getColor(R.styleable.DragView_strokeColor, Color.RED);
         strokeWidth = tr.getDimension(R.styleable.DragView_strokeWidth, 0);
+
         tr.recycle();
 
         init();
