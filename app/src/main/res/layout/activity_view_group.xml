@@ -18,7 +18,8 @@
 
         <com.windern.cleanmvp.presentation.viewgroup.DragView
             android:layout_width="40dp"
-            android:layout_height="160dp"
+            android:layout_height="40dp"
+            android:background="#aaaaaa"
             app:posX="1dp"
             app:posY="1dp"
             app:fillColor="#44ff00"
@@ -34,14 +35,10 @@
             android:text="111"
             android:textSize="16sp" />
 
-        <com.windern.cleanmvp.presentation.viewgroup.DragView
-            android:layout_width="50dp"
-            android:layout_height="160dp"
-            app:posX="100dp"
-            app:posY="150dp"
-            app:fillColor="#81ab3d"
-            app:strokeColor="#188fff"
-            app:strokeWidth="3dp" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_launcher"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -56,7 +53,8 @@
         <com.windern.cleanmvp.presentation.viewgroup.DragView
             android:id="@+id/dgview2"
             android:layout_width="50dp"
-            android:layout_height="160dp"
+            android:layout_height="50dp"
+            android:background="#aaaaaa"
             app:posX="200dp"
             app:posY="150dp"
             app:fillColor="#81ab3d"
