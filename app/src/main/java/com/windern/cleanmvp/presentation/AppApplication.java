@@ -2,6 +2,7 @@ package com.windern.cleanmvp.presentation;
 
 import android.app.Application;
 
+import com.blankj.utilcode.utils.Utils;
 import com.windern.cleanmvp.data.database.DaoMaster;
 import com.windern.cleanmvp.data.database.DaoSession;
 import com.windern.cleanmvp.data.database.DatabaseManagerHelper;
@@ -23,6 +24,8 @@ public class AppApplication extends Application {
 
         Timber.plant(new Timber.DebugTree());
         Timber.tag("windern");
+        Utils.init(this);
+
         applicationComponent = DaggerApplicationComponent.builder()
                 .applicationModule(new ApplicationModule(this))
                 .build();
