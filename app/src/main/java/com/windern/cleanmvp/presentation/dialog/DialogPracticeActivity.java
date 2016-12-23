@@ -5,8 +5,12 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.TextView;
 
 import com.blankj.utilcode.utils.ToastUtils;
+import com.pnikosis.materialishprogress.ProgressWheel;
 import com.windern.cleanmvp.R;
 
 import java.util.concurrent.TimeUnit;
@@ -50,6 +54,33 @@ public class DialogPracticeActivity extends AppCompatActivity {
                     @Override
                     public void call(Integer integer) {
                         progressDialog.dismiss();
+                    }
+                });
+    }
+
+    private AlertDialog selfDialog;
+    @OnClick(R.id.btn_show_self_progress_dialog)
+    public void showSelfProgressDialog(){
+        if(selfDialog==null){
+            LayoutInflater layoutInflater = LayoutInflater.from(this);
+            View view = layoutInflater.inflate(R.layout.my_progress_dialog,null);
+            ProgressWheel progressWheel = (ProgressWheel)view.findViewById(R.id.progress_wheel);
+            progressWheel.spin();
+            TextView tvMessage = (TextView)view.findViewById(R.id.tv_message);
+            tvMessage.setText("正在进行中……");
+            AlertDialog.Builder builder = new AlertDialog.Builder(DialogPracticeActivity.this);
+            builder.setView(view);
+            selfDialog = builder.create();
+            selfDialog.setCancelable(false);
+            selfDialog.setCanceledOnTouchOutside(false);
+        }
+        selfDialog.show();
+        Observable.just(1)
+                .delay(3, TimeUnit.SECONDS)
+                .subscribe(new Action1<Integer>() {
+                    @Override
+                    public void call(Integer integer) {
+                        selfDialog.dismiss();
                     }
                 });
     }
