@@ -82,4 +82,6 @@ dependencies {
     compile 'com.pnikosis:materialish-progress:1.7'
     //loadinglayout
     compile 'com.github.czy1121:loadinglayout:1.0.1'
+    //bga-refreshlayout
+    compile 'cn.bingoogolapple:bga-refreshlayout:1.1.7@aar'
 }
