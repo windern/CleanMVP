@@ -15,23 +15,26 @@
         <activity
             android:name=".presentation.recyclerview.RecyclerViewPracticeActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <activity android:name=".presentation.viewgroup.ViewGroupActivity"></activity>
-        <activity android:name=".presentation.search.SearchActivity"
+        <activity android:name=".presentation.viewgroup.ViewGroupActivity" />
+        <activity
+            android:name=".presentation.search.SearchActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
-
+        </activity>
+        <activity
+            android:name=".presentation.search.SearchResultsActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".presentation.loading.LoadingActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".presentation.search.SearchResultsActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
         </activity>
     </application>
