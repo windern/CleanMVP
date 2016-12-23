@@ -30,11 +30,13 @@
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
         </activity>
-        <activity android:name=".presentation.loading.LoadingActivity">
+        <activity android:name=".presentation.loading.LoadingActivity"></activity>
+        <activity
+            android:name=".presentation.recyclerview.RecyclerNewLoadingActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar">
 
         </activity>
-        <activity android:name=".presentation.recyclerview.RecyclerNewLoadingActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar">
+        <activity android:name=".presentation.dialog.DialogPracticeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
