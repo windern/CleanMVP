@@ -17,9 +17,9 @@ public class Producer implements Runnable {
         try {
             while (true) {
                 Product product = new Product((int) (Math.random() * 10000)); // 产生0~9999随机整数
-                System.out.println(Thread.currentThread().getId()+":"+name + "准备生产(" + product.toString() + ").");
+                System.out.println(Thread.currentThread().getId()+":"+name + "-准备生产(" + product.toString() + ").");
                 s.push(product);
-                System.out.println(Thread.currentThread().getId()+":"+name + "已生产(" + product.toString() + ").");
+                System.out.println(Thread.currentThread().getId()+":"+name + "-已生产(" + product.toString() + ").");
                 System.out.println(Thread.currentThread().getId()+":"+"===============");
                 Thread.sleep(500);
             }
