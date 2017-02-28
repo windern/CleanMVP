@@ -58,7 +58,9 @@ public class SendConsumer implements Runnable {
                     System.out.println(Thread.currentThread().getId() + ":handleBackMessage：准备开始处理");
                     BtMessage last = nowHandle;
                     nowHandle = null;
-                    sendMessage();
+                    //这个写会死锁
+                    //sendMessage()
+                    //函数整个执行完才会解锁
                     last.getPublishSubject().onNext("完成" + last.getId() + "," + last.getMesssage());
                     System.out.println(Thread.currentThread().getId() + ":handleBackMessage：处理成功：id:" + last.getId());
                 } else {
