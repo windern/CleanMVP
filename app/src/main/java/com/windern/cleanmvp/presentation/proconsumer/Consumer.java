@@ -54,6 +54,8 @@ public class Consumer implements Runnable {
                 System.out.println(Thread.currentThread().getId() + ":" + name + "正在消费(" + nowHandleProduct.toString() + ").");
                 Product last = nowHandleProduct;
                 nowHandleProduct = null;
+                System.out.println(Thread.currentThread().getId() + ":" + name + "准备执行(" + last.toString() + ").");
+                last.getPublishSubject().onNext(last.toString());
                 System.out.println(Thread.currentThread().getId() + ":" + name + "消费成功(" + last.toString() + ").");
             } else{
                 System.out.println(Thread.currentThread().getId() + ":" + name + "正在消费(null产品).");
